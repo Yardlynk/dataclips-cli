@@ -19,22 +19,31 @@ interface](https://data.heroku.com/dataclips). It will have a URL similar to
 
 `vgntjcbwfakfsxhdmrmzmliwftts` is the "slug" of the dataclip.
 
-Queries should be stored as flat `.sql` files, with a little metadata at the
-beginning. Here's an example.
+Create a `.json` file containing slugs of all of the dataclips you wish to delete.
 
-```sql
-$ cat example.sql
--- clip_slug: vgntjcbwfakfsxhdmrmzmliwftts
--- title: A Test Dataclip
+```json
+[
+    "ebmroiuqsyghwjapxqaavdqpbakb",
+    "oeqfmplqbwttrjwfcfvtoaprufta",
+    "maqwkisowgexbwuswqfnszmodxrx"
+]
+```
 
-select count(*) from pg_user;
+**Hint** While in the web interface you can copy and paste the following into the browser console to list all slugs on the page. If you have more than one page of dataclips, repeat for each page.
+
+```javascript
+let arr = Array.from(document.querySelectorAll("[href^='/dataclips/'")).map(node => {
+    return node.getAttribute("href").match(/\/dataclips\/(\w+)/)[1]
+})
+let set = new Set(arr)
+Array.from(set)
 ```
 
 ## Usage
 
 ```
-# Update some query files
-$ deno run --allow-read --allow-env --allow-net https://deno.land/x/dataclips_cli/index.ts file.sql file2.sql
+# Delete some dataclips
+$ deno run --allow-read --allow-env --allow-net index.ts example.json
 ```
 
 ## Authentication

@@ -156,3 +156,9 @@ mutation UpdateDataclip($clipId: ID!, $attachmentId: ID, $title: String, $sql: S
   editable
 }
 `;
+
+export const deleteClipQuery = `
+mutation DeleteDataclip($clipId: ID!) {
+  deleteClip(clipId: $clipId)
+}
+`
